@@ -3,7 +3,6 @@ library(lme4)
 library(lmerTest)
 library(cAIC4)
 library(dplyr)
-library(dominanceanalysis)
 library(performance)
 library(broom.mixed)
 
