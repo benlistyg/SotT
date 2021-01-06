@@ -2,7 +2,7 @@ library(psychmeta)
 library(lme4)
 library(lmerTest)
 library(cAIC4)
-;library(dplyr)
+library(dplyr)
 library(dominanceanalysis)
 library(performance)
 library(broom.mixed)
@@ -51,7 +51,7 @@ meta_results %>%
 
 # we chose rational cut-points, using 365 days (i.e., one year or greater on the job versus less than one year) 
 # the cut-point of the year of data collection at 2003 (i.e., published in 2005). We chose one year to ensure that job-related performance behaviors would have time to become routine. 
-# All moderator variables were coded as contrasts (1 or -1) to result in a model equivalent to a three-way ANOVA with a 2(Job Tenure: Less than one year vs. More than one year) × 2(Year: Before 2003 vs. 2003 and after) × 2(Criterion Type: Job performance vs. Training performance) design. 
+# All moderator variables were coded as contrasts (1 or -1) to result in a model equivalent to a three-way ANOVA with a 2(Job Tenure: Less than one year vs. More than one year) Ã— 2(Year: Before 2003 vs. 2003 and after) Ã— 2(Criterion Type: Job performance vs. Training performance) design. 
 
 # Models were evaluated in steps, beginning with the main effects of all variables, then adding the all two-way interactions involving Criterion Type, followed by our main hypothesis test of the two-way interaction between Job Tenure and Year. Finally, a three-way interaction was evaluated to determine whether the interaction between Job Tenure and Year was dependent on whether the criterion was a measure of job or training performance. 
 
@@ -318,7 +318,15 @@ median(lmer_gma$StudyYear); mean(lmer_gma$StudyYear); sd(lmer_gma$StudyYear)
 
 table(lmer_gma$TP_JP); 40/73
 
+# Effect Sizes for Model 4 ------------------------------------------------------------
 
+ 0.161421685 / sqrt(0.03272845 + 0.00005236)
+ 0.024191194 / sqrt(0.03272845 + 0.00005236)
+-0.083965845 / sqrt(0.03272845 + 0.00005236)
+ 0.032704973 / sqrt(0.03272845 + 0.00005236)
+ 0.019902754 / sqrt(0.03272845 + 0.00005236)
+-0.002821406 / sqrt(0.03272845 + 0.00005236)
+ 0.197186480 / sqrt(0.03272845 + 0.00005236)
 
 
 
