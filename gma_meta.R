@@ -1,8 +1,8 @@
 library(psychmeta)
 library(lme4)
 library(lmerTest)
-library(cAIC4)
 library(dplyr)
+library(dominanceanalysis)
 library(performance)
 library(broom.mixed)
 
@@ -24,7 +24,7 @@ outersect <- function(x, y) {
 
 # Meta-Analysis ---------------------------------------------------
 
-gma <- readxl::read_xlsx("C:/Users/Ben/Box/SotT/GMA_2020128.xlsx", sheet = 1)
+gma <- readxl::read_xlsx("~/Downloads/GMA_2020128.xlsx", sheet = 1)
 
 gma$Sample <- round(gma$Study)
 
