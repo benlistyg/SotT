@@ -24,7 +24,7 @@ outersect <- function(x, y) {
 
 # Meta-Analysis ---------------------------------------------------
 
-gma <- readxl::read_xlsx("~/Downloads/GMA_2020128.xlsx", sheet = 1)
+gma <- readxl::read_xlsx("data.xlsx", sheet = 1)
 
 gma$Sample <- round(gma$Study)
 
