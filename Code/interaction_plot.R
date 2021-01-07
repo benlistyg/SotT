@@ -1,15 +1,28 @@
 # Plotting ----------------------------------------------------------------
 
-lmer_gma %>% 
-  select(RXY, Year, Tenure) %>% 
-  ggplot(., aes(x=Year, y=RXY)) + 
-  geom_point(aes(size = Tenure))+
-  geom_smooth(method='lm', se = F, size = 2, col = 'black') + 
-  scale_color_gradient(low="blue", high="red") + 
-  xlab("Study Year")  + 
-  ylab("GMA - Job Performance Correlation") + 
-  theme(axis.text=element_text(size=20),
-        axis.title=element_text(size=20),
-        legend.title = element_text(size = 20),
-        legend.text = element_text(size = 14)) + 
-  theme(panel.background = element_blank())
+library(ggeffects)
+library(ggplot2)
+
+model_plot <- lmer(`GMA-Job Performance Correlation` ~ StudyYear + 
+                     Tenure + 
+                     CriterionType_contrast +
+                     StudyYear:CriterionType_contrast + 
+                     Tenure:CriterionType_contrast +
+                     StudyYear:Tenure +  
+                     (1 | Article), 
+                   data = data_plot,
+                   weights = VarE)
+
+dat <- ggpredict(model_plot, c("StudyYear", "Tenure"))
+
+ggplot(dat, aes(x = x, y = predicted, colour = group)) +
+  stat_smooth(method = "lm", se = FALSE, fullrange = TRUE) + 
+  ylab('GMA-Job Performance Correlation') + 
+  xlab('Study Year')  + 
+  scale_color_manual(name="Job\nTenure",
+                     labels=c("-1 SD","Mean","+1 SD"),
+                     values=c("red","green","blue")) + 
+  theme(text = element_text(size=20),
+        panel.background = element_blank())
+
+
