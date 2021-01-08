@@ -1,6 +1,6 @@
 # SotT
 
-* `gma_meta.R` = Code for running meta-analysis using `psychmeta` (Dahlke & Wiernik, 2019), random intercept models, model comparison, effect sizes, and model summary statistics
+* `gma_meta.R` = Code for running meta-analysis using ```psychmeta``` (Dahlke & Wiernik, 2019), random intercept models, model comparison, effect sizes, and model summary statistics
 
 * `sensitivity_analysis.R` = Removes top/bottom 2.5%/5% of correlations and primary studies for robustness checks
 
