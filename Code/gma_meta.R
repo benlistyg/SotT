@@ -8,12 +8,9 @@ library(broom.mixed)
 
 # General Findings --------------------------------------------------------
 
-# Meta-analytic correlations generally match original findings
-# Contrast coded estimate results (specifically from Model 4) match original findings
-# AICs differ from first manuscript
-# Continuous time results get nothing
-# Controlling for job complexity in both continuous and contrast Model 4 make interaction effects non-sig
-
+# Meta-analytic correlations generally match original study findings
+# Continuous variable models are significant w/ one-tailed tests
+  # Contrast coded estimate results (specifically from Model 4) match original findings
 
 # Helper Functions -------------------------------------------------------
 
@@ -47,17 +44,13 @@ meta_results %>%
   .$true_score
 
 # Recreating original manuscript results
-
-# we chose rational cut-points, using 365 days (i.e., one year or greater on the job versus less than one year) 
-# the cut-point of the year of data collection at 2003 (i.e., published in 2005). We chose one year to ensure that job-related performance behaviors would have time to become routine. 
-# All moderator variables were coded as contrasts (1 or -1) to result in a model equivalent to a three-way ANOVA with a 2(Job Tenure: Less than one year vs. More than one year) × 2(Year: Before 2003 vs. 2003 and after) × 2(Criterion Type: Job performance vs. Training performance) design. 
-
+# Error variance weights were used
 # Models were evaluated in steps, beginning with the main effects of all variables, then adding the all two-way interactions involving Criterion Type, followed by our main hypothesis test of the two-way interaction between Job Tenure and Year. Finally, a three-way interaction was evaluated to determine whether the interaction between Job Tenure and Year was dependent on whether the criterion was a measure of job or training performance. 
 
 # HLM ------------------------------------------------------------
 
 # Pre-processing
-# This data is used for the models in LMER
+# This data is used for the models in lme4
 
 lmer_gma <- gma %>% 
   select(Study, Article, Reference, N, Time, RXY, TP_JP, VarE, Year, `Complexity (SVP Upper Value)`) %>% 
@@ -71,7 +64,7 @@ lmer_gma <- gma %>%
          StudyYear_contrast = ifelse(StudyYear <= 2003, -1, 1))
 
 
-# Contrast coding (Recreating paper) -------------------------------------------
+# Contrast coding (Recreating OG paper, this can be ignored when looking at manuscript results) -------------------------------------------
 
 # Random intercept null model
 
