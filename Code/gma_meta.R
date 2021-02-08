@@ -19,6 +19,8 @@ outersect <- function(x, y) {
          setdiff(y, x)))
 }
 
+'%!in%' <- function(x,y)!('%in%'(x,y))
+
 # Meta-Analysis ---------------------------------------------------
 
 gma <- readxl::read_xlsx("data.xlsx", sheet = 1)
