@@ -10,12 +10,12 @@ model_plot <- lmer(`GMA-Job Performance Correlation` ~ StudyYear +
                      Tenure:CriterionType_contrast +
                      StudyYear:Tenure +  
                      (1 | Article), 
-                   data = data_plot,
+                   data = data,
                    weights = VarE)
 
-dat <- ggpredict(model_plot, c("StudyYear", "Tenure"))
+plot_data <- ggpredict(model_plot, c("StudyYear", "Tenure"))
 
-ggplot(dat, aes(x = x, y = predicted, colour = group)) +
+ggplot(plot_data, aes(x = x, y = predicted, colour = group)) +
   stat_smooth(method = "lm", se = FALSE, fullrange = TRUE) + 
   ylab('GMA-Job Performance Correlation') + 
   xlab('Study Year')  + 
