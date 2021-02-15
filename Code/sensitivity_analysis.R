@@ -1,7 +1,7 @@
 # Sensitivity Analysis ----------------------------------------------------
 
 # Removing highest / lowest 5% and 10% of correlations
-# +/- Top 4 and 7
+# +/- Top 4 and 8
 
 # Removing top 5% and 10% of individual correlations
 lmer_gmaTOP5_cor <- lmer_gma %>% arrange(-RXY) %>% .[-c(1:2, (sort(nrow(.)-c(1:2))+1)),]
@@ -9,14 +9,10 @@ lmer_gmaTOP5_cor <- lmer_gma %>% arrange(-RXY) %>% .[-c(1:2, (sort(nrow(.)-c(1:2
 
 lmer_gmaTOP10_cor <- lmer_gma %>% arrange(-RXY) %>% .[-c(1:4, (sort(nrow(lmer_gma)-c(1:4))+1)),]
 
-# Removing top 5% and 10% of primary studies
-lmer_gmaTOP5_study <- lmer_gma %>% 
-  arrange(-RXY) %>% 
-  filter(Article %!in% c(32,21,35,10))
+# Removing studies w/ tenure < 2000 days and tenure < 4000 days
+lmer_gma_tenure_2000 <- lmer_gma %>% filter(Tenure < 2000)
+lmer_gma_tenure_4000 <- lmer_gma %>% filter(Tenure < 4000)
 
-lmer_gmaTOP10_study <- lmer_gma %>% 
-  arrange(-RXY) %>% 
-  filter(Article %!in% c(32,21,35,10, 33, 17, 30, 2))
 
 sensitivity_models <- function(Data) {
   
@@ -111,8 +107,8 @@ sensitivity_models <- function(Data) {
 output_TOP5_cor     <- sensitivity_models(Data = lmer_gmaTOP5_cor)
 output_TOP10_cor    <- sensitivity_models(Data = lmer_gmaTOP10_cor)
 
-output_TOP5_study     <- sensitivity_models(Data = lmer_gmaTOP5_study)
-output_TOP10_study    <- sensitivity_models(Data = lmer_gmaTOP10_study)
+output_tenure_2000     <- sensitivity_models(Data = lmer_gma_tenure_2000)
+output_tenure_4000    <- sensitivity_models(Data = lmer_gma_tenure_4000)
 
 # Create a blank workbook
 OUT <- createWorkbook()
@@ -120,23 +116,22 @@ OUT <- createWorkbook()
 # Add some sheets to the workbook
 addWorksheet(OUT, "top5cor")
 addWorksheet(OUT, "top10cor")
-addWorksheet(OUT, "top5study")
-addWorksheet(OUT, "top10study")
+addWorksheet(OUT, "Tenure2000")
+addWorksheet(OUT, "Tenure4000")
 
 # Write the data to the sheets
 
 output_TOP5_cor$Model_continuous_output$M4   
 output_TOP10_cor$Model_continuous_output$M4  
-output_TOP5_study$Model_continuous_output$M4 
-output_TOP10_study$Model_continuous_output$M4
+output_tenure_2000$Model_continuous_output$M4 
+output_tenure_4000$Model_continuous_output$M4
 
 writeData(OUT, sheet = "top5cor", x = output_TOP5_cor$Model_continuous_output$M4   )
 writeData(OUT, sheet = "top10cor", x = output_TOP10_cor$Model_continuous_output$M4  )
-writeData(OUT, sheet = "top5study", x = output_TOP5_study$Model_continuous_output$M4 )
-writeData(OUT, sheet = "top10study", x = output_TOP10_study$Model_continuous_output$M4)
+writeData(OUT, sheet = "Tenure2000", x = output_tenure_2000$Model_continuous_output$M4)
+writeData(OUT, sheet = "Tenure4000", x = output_tenure_4000$Model_continuous_output$M4)
 # Reorder worksheets
 worksheetOrder(OUT) <- c(1,2,3,4)
 
 # Export the file
 saveWorkbook(OUT, "sensitivity.xlsx")
-
