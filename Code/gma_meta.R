@@ -5,12 +5,15 @@ library(dplyr)
 library(dominanceanalysis)
 library(performance)
 library(broom.mixed)
+library(openxlsx)
+library(jtools)
+library(sjPlot)
 
 # General Findings --------------------------------------------------------
 
 # Meta-analytic correlations generally match original study findings
 # Continuous variable models are significant w/ one-tailed tests
-  # Contrast coded estimate results (specifically from Model 4) match original findings
+# Contrast coded estimate results (specifically from Model 4) match original findings
 
 # Helper Functions -------------------------------------------------------
 
@@ -57,9 +60,9 @@ meta_results %>%
 lmer_gma <- gma %>% 
   select(Study, Article, Reference, N, Time, RXY, TP_JP, VarE, Year, `Complexity (SVP Upper Value)`) %>% 
   mutate(Tenure = Time,
-         JobTenure_z = scale(Tenure),
+         JobTenure_z = as.vector(scale(Tenure)),
          StudyYear = Year - 2,
-         StudyYear_z = scale(StudyYear),
+         StudyYear_z = as.vector(scale(StudyYear)),
          Article = as.factor(Article),
          CriterionType_contrast = ifelse(test = TP_JP == 0, -1, 1),
          JobTenure_contrast = ifelse(test = Tenure <= 365, -1, 1),
@@ -88,7 +91,7 @@ lmer_gma <- gma %>%
 # R_XY ~ Year + Job Tenure +
 #   Year:Job Tenure + Job Tenure:Criterion Type
 
-`M3_contrast: Year x Criterion Type; Job Tenure x Criterion Type` <- lmer(RXY ~ CriterionType_contrast + 
+`M3_contrast: Year x Criterion Type; Job Tenure x Criterion Type` <- lmerTest::lmer(RXY ~ CriterionType_contrast + 
                                                                             StudyYear_contrast +
                                                                             JobTenure_contrast + 
                                                                             StudyYear_contrast:CriterionType_contrast + 
@@ -100,7 +103,7 @@ lmer_gma <- gma %>%
 # Year  Job Tenure
 # R_XY ~ Year*Job Tenure
 
-`M4_contrast: Year x Job Tenure` <- lmer(RXY ~ CriterionType_contrast + 
+`M4_contrast: Year x Job Tenure` <- lmerTest::lmer(RXY ~ CriterionType_contrast + 
                                            StudyYear_contrast +
                                            JobTenure_contrast + 
                                            StudyYear_contrast:CriterionType_contrast + 
@@ -113,7 +116,7 @@ lmer_gma <- gma %>%
 # Year  Job Tenure  Criterion Type
 # R_XY ~ Year*Job Tenure*Criterion Type
 
-`M5_contrast: Year x Job Tenure x Criterion Type` <- lmer(RXY ~ CriterionType_contrast + 
+`M5_contrast: Year x Job Tenure x Criterion Type` <- lmerTest::lmer(RXY ~ CriterionType_contrast + 
                                                             StudyYear_contrast +
                                                             JobTenure_contrast + 
                                                             StudyYear_contrast:CriterionType_contrast + 
@@ -153,7 +156,7 @@ Model_contrast_output <- list(
   M5 = `M5_contrast: Year x Job Tenure x Criterion Type`) %>% 
   lapply(., broom.mixed::tidy)
 
-Model_contrast_output
+# Model_contrast_output
 
 Model_contrast_summary <- list(
   M1 = `M1_contrast: Null Model`,
@@ -195,7 +198,7 @@ Model_contrast_summary <- list(
 # R_XY ~ Year + Job Tenure +
 #   Year:Job Tenure + Job Tenure:Criterion Type
 
-`M3_continuous: Year x Criterion Type; Job Tenure x Criterion Type` <- lmer(RXY ~ StudyYear_z + 
+`M3_continuous: Year x Criterion Type; Job Tenure x Criterion Type` <- lmerTest::lmer(RXY ~ StudyYear_z + 
                                                                               JobTenure_z + 
                                                                               CriterionType_contrast +
                                                                               StudyYear_z:CriterionType_contrast + 
@@ -207,7 +210,7 @@ Model_contrast_summary <- list(
 # Year  Job Tenure
 # R_XY ~ Year*Job Tenure
 
-`M4_continuous: Year x Job Tenure` <- lmer(RXY ~ StudyYear_z + 
+`M4_continuous: Year x Job Tenure` <- lmerTest::lmer(RXY ~ StudyYear_z + 
                                              JobTenure_z + 
                                              CriterionType_contrast +
                                              StudyYear_z:CriterionType_contrast + 
@@ -220,7 +223,7 @@ Model_contrast_summary <- list(
 # Year  Job Tenure  Criterion Type
 # R_XY ~ Year*Job Tenure*Criterion Type
 
-`M5_continuous: Year x Job Tenure x Criterion Type` <- lmer(RXY ~ StudyYear_z + 
+`M5_continuous: Year x Job Tenure x Criterion Type` <- lmerTest::lmer(RXY ~ StudyYear_z + 
                                                               JobTenure_z + 
                                                               CriterionType_contrast +
                                                               StudyYear_z:CriterionType_contrast + 
@@ -258,7 +261,7 @@ Model_continuous_output <- list(
   M5 = `M5_continuous: Year x Job Tenure x Criterion Type`) %>% 
   lapply(., broom.mixed::tidy)
 
-Model_continuous_output
+# Model_continuous_output
 
 Model_continuous_summary <- list(
   M1 = `M1_continuous: Null Model`,
@@ -311,16 +314,6 @@ median(gma$Time); mean(gma$Time); sd(gma$Time)
 median(lmer_gma$StudyYear); mean(lmer_gma$StudyYear); sd(lmer_gma$StudyYear)
 
 table(lmer_gma$TP_JP); 40/73
-
-# Effect Sizes for Model 4 ------------------------------------------------------------
-
- 0.161421685 / sqrt(0.03272845 + 0.00005236)
- 0.024191194 / sqrt(0.03272845 + 0.00005236)
--0.083965845 / sqrt(0.03272845 + 0.00005236)
- 0.032704973 / sqrt(0.03272845 + 0.00005236)
- 0.019902754 / sqrt(0.03272845 + 0.00005236)
--0.002821406 / sqrt(0.03272845 + 0.00005236)
- 0.197186480 / sqrt(0.03272845 + 0.00005236)
 
 
 
