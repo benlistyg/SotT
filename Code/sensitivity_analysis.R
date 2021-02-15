@@ -135,3 +135,31 @@ worksheetOrder(OUT) <- c(1,2,3,4)
 
 # Export the file
 saveWorkbook(OUT, "sensitivity.xlsx")
+
+# > output_tenure_2000$Model_continuous_output$M4 
+# # A tibble: 9 x 8
+# effect   group    term                               estimate std.error statistic    df  p.value
+# <chr>    <chr>    <chr>                                 <dbl>     <dbl>     <dbl> <dbl>    <dbl>
+#   1 fixed    NA       (Intercept)                         0.177      0.0507     3.49   29.0  0.00159
+# 2 fixed    NA       StudyYear_z                         0.0439     0.0528     0.830  38.6  0.412  
+# 3 fixed    NA       JobTenure_z                         0.0441     0.111      0.399  28.6  0.693  
+# 4 fixed    NA       CriterionType_contrast              0.0506     0.0496     1.02   32.9  0.316  
+# 5 fixed    NA       StudyYear_z:CriterionType_contrast  0.0120     0.0337     0.356  28.4  0.725  
+# 6 fixed    NA       JobTenure_z:CriterionType_contrast  0.0731     0.106      0.692  33.9  0.494  
+# 7 fixed    NA       StudyYear_z:JobTenure_z             0.278      0.116      2.40   40.7  0.0213 
+# 8 ran_pars Article  sd__(Intercept)                     0.178     NA         NA      NA   NA      
+# 9 ran_pars Residual sd__Observation                     0.00668   NA         NA      NA   NA   
+
+# > output_tenure_4000$Model_continuous_output$M4
+# # A tibble: 9 x 8
+# effect   group    term                               estimate std.error statistic    df  p.value
+# <chr>    <chr>    <chr>                                 <dbl>     <dbl>     <dbl> <dbl>    <dbl>
+#   1 fixed    NA       (Intercept)                         0.164      0.0505     3.24   26.4  0.00319
+# 2 fixed    NA       StudyYear_z                         0.0300     0.0523     0.573  36.4  0.570  
+# 3 fixed    NA       JobTenure_z                        -0.0553     0.0984    -0.562  36.4  0.578  
+# 4 fixed    NA       CriterionType_contrast              0.0352     0.0494     0.714  30.3  0.481  
+# 5 fixed    NA       StudyYear_z:CriterionType_contrast  0.0165     0.0335     0.492  24.9  0.627  
+# 6 fixed    NA       JobTenure_z:CriterionType_contrast  0.0182     0.102      0.178  33.4  0.860  
+# 7 fixed    NA       StudyYear_z:JobTenure_z             0.218      0.111      1.96   43.0  0.0564 
+# 8 ran_pars Article  sd__(Intercept)                     0.176     NA         NA      NA   NA      
+# 9 ran_pars Residual sd__Observation                     0.00698   NA         NA      NA   NA      
