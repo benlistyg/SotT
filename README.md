@@ -11,7 +11,5 @@
 * First, make sure the `data.xlsx` spreadsheet is in your current working directory
 
 * Then, run the following lines:
-&nbsp; 
 * ```source('https://raw.githubusercontent.com/benlistyg/SotT/main/Code/gma_meta.R')```
-&nbsp; 
 * ```source('https://raw.githubusercontent.com/benlistyg/SotT/main/Code/sensitivity_analysis.R')```
