@@ -5,41 +5,27 @@ library(extrafont)
 loadfonts(device="win")
 windowsFonts(Times=windowsFont("TT Times New Roman"))
 
-lmer_gma$TenureQuartile <- as.factor(ntile(lmer_gma$Tenure, 4))
+# These values come from the spreadsheet Nathan sent me. For the life of me, I couldn't figure out how to recreate this exactly in R. I copied and pasted from the spreadsheet and adapted it for ggplot.
 
-lmer_gmaQ1 <- filter(lmer_gma, TenureQuartile == 1)
-lmer_gmaQ3 <- filter(lmer_gma, TenureQuartile == 3)
+plot_data <- c(0.202082702, 0.180978595,
+               0.018294182, 0.140990741) %>% 
+  matrix(ncol = 2, byrow = T) %>% 
+  reshape2::melt()
 
-lmer_gma$TenureQuartile <- NULL
+plot_data <-
+  rename(plot_data, 
+         'Year' = 'Var1',
+         'Tenure' = 'Var2')
 
-mean_line <- ggplot(lmer_gma) +
-  aes(StudyYear,`GMA-Job Performance Correlation`, col = 'JobTenure') +
-  stat_smooth(method = "lm", fullrange = T, se = F, linetype = 'solid', col = 'black')
+plot_data <- plot_data %>% 
+  mutate(Tenure = as.factor(Tenure),
+         Year = as.factor(Year))
 
-mean_data <- mean_line$data
-mean_data$group <- as.factor("Mean")
-
-Q1_data <- stat_smooth(method = "lm", fullrange = T, data = lmer_gmaQ1, se = F, linetype = 'twodash', col = 'gray69')$data
-Q1_data <- rename(Q1_data, 'group'= "TenureQuartile")
-
-Q3_data <- stat_smooth(method = "lm", fullrange = T, data = lmer_gmaQ3, se = F, linetype = 'twodash', col = 'gray69')$data
-Q3_data <- rename(Q3_data, 'group'= "TenureQuartile")
-
-plot_data <- rbind(mean_data, Q1_data, Q3_data)
-
-ggplot(plot_data, aes(x = StudyYear, y = `GMA-Job Performance Correlation`, color = group, linetype = group)) +
-  stat_smooth(method = "lm", se = F, fullrange = T) + 
+ggplot(plot_data, aes(x = Tenure, y = value, group = Year, linetype = Year)) + 
+  geom_line() + 
   ylab('GMA-Job Performance Correlation') + 
-  xlab('Study Year')  + 
-  ylim(c(-1,1)) + 
-  scale_linetype_manual(name="Job\nTenure",
-                        labels=c("Mean (805 Days)",expression(paste(1^"st", "Quartile", " (122 Days)")),expression(paste(3^"rd", "Quartile", " (1095 Days)"))),
-                        values=c("solid", "twodash", "dashed")) +
-  scale_color_manual(name="Job\nTenure",
-                     labels=c("Mean (805 Days)",expression(paste(1^"st", "Quartile", " (122 Days)")),expression(paste(3^"rd", "Quartile", " (1095 Days)"))),
-                     values=c("black","gray69","gray42")) +
-  scale_x_continuous(breaks=seq(1942, 2018, 19))+ 
+  ylim(c(-.5,.5)) + 
   theme_classic(base_family='Times New Roman', 
-                base_size = 20)
-
-  
+                base_size = 20) + 
+  scale_x_discrete("Job Tenure", labels = c("1" = "~4.4 Months (Q1)", "2" = "3 Years (Q3)")) + 
+  scale_linetype_discrete("Study Year", labels  = c("1" = "1999 (Q1)", "2" = "2013 (Q3)"))
