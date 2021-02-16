@@ -14,9 +14,9 @@
 - ```source('https://raw.githubusercontent.com/benlistyg/SotT/main/Code/gma_meta.R')```
 - ```source('https://raw.githubusercontent.com/benlistyg/SotT/main/Code/sensitivity_analysis.R')```
 
-If ran successfully, assuming an empty global environment, your environment should now be populated with the following:
+If ran successfully, assuming an empty global environment, your environment should now be populated with the following objects. Note that anything with "contrast" is deprecated and was following analyses that originally used contrast coding for the Tenure and Study Year variables. We have since gone on to model these continuously.
 
-* [1] `"%!in%"                                                            
+* [1] `"%!in%"`                                             
 * [2]  `"AIC_continuous"                                                  `
 * [3]  `"AIC_contrast"                                                    `
 * [4]  `"Continuous: Year x Job Tenure"                                   `
@@ -53,4 +53,4 @@ If ran successfully, assuming an empty global environment, your environment shou
 * [35] `"output_TOP10_cor"                                                `
 * [36] `"output_TOP5_cor"                                                 `
 * [37] `"sensitivity_models"                                              `
-* [38] `"weights" 
+* [38] `"weights"` 
