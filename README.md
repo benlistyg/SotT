@@ -16,9 +16,9 @@
 
 If ran successfully, assuming an empty global environment, your environment should now be populated with the following objects. Note that anything with "contrast" is deprecated and was following analyses that originally used contrast coding for the Tenure and Study Year variables. We have since gone on to model these continuously.
 
-* [1] `"%!in%"`                                             
-* [2]  `"AIC_continuous"                                                  `
-* [3]  `"AIC_contrast"                                                    `
+* [1] `"%!in%"` - Helper function to filter out elements in one set that are "not in" another set.
+* [2]  `"AIC_continuous"` - AIC values for all models ran. Used for model comparison / selection. 
+* [3]  `"AIC_contrast"` - ```diff Ignore. in red```
 * [4]  `"Continuous: Year x Job Tenure"                                   `
 * [5]  `"Contrast: Year x Job Tenure"                                     `
 * [6]  `"gma"                                                             `
