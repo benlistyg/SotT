@@ -18,10 +18,10 @@ If ran successfully, assuming an empty global environment, your environment shou
 
 * [1] `"%!in%"` - Helper function to filter out elements in one set that are "not in" another set.
 * [2]  `"AIC_continuous"` - AIC values for all models ran. Used for model comparison / selection. 
-* [3]  `"AIC_contrast"` - <span color="red">red</span>
-* [4]  `"Continuous: Year x Job Tenure"                                   `
-* [5]  `"Contrast: Year x Job Tenure"                                     `
-* [6]  `"gma"                                                             `
+* [3]  `"AIC_contrast"` - *Ignore*
+* [4]  `"Continuous: Year x Job Tenure"` - `lme4` model object
+* [5]  `"Contrast: Year x Job Tenure"` - *Ignore*
+* [6]  `"gma"` - Dataset used in analyses
 * [7]  `"lmer_gma"                                                        `
 * [8]  `"lmer_gma_tenure_2000"                                            `
 * [9]  `"lmer_gma_tenure_4000"                                            `
