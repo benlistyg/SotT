@@ -18,7 +18,7 @@ If ran successfully, assuming an empty global environment, your environment shou
 
 * [1] `"%!in%"` - Helper function to filter out elements in one set that are "not in" another set.
 * [2]  `"AIC_continuous"` - AIC values for all models ran. Used for model comparison / selection. 
-* [3]  `"AIC_contrast"` - <span color="red">Ignore.</span>
+* [3]  `"AIC_contrast"` - <span color="red">red</span>
 * [4]  `"Continuous: Year x Job Tenure"                                   `
 * [5]  `"Contrast: Year x Job Tenure"                                     `
 * [6]  `"gma"                                                             `
